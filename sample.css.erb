@@ -1,0 +1,118 @@
+<% wrapper_width = 1000 %>
+<% wrapper_border = 1 %>
+<% wrapper_padding = 20 %>
+<% wrapper_inner_width = wrapper_width - ( wrapper_border + wrapper_padding ) * 2 %>
+<% wrapper_height = 1000 %>
+<% wrapper_inner_height = wrapper_height - ( wrapper_border + wrapper_padding ) * 2 %>
+<% wrapper_bgcolor = "#FEFDFD" %>
+
+<% footer_height = wrapper_padding %>
+<% footer_padding = 3 %>
+<% footer_inner_height = footer_height - footer_padding * 2 %>
+
+<% header_inner_width = 75 + 2 * 2 %>
+<% header_border = 0 %>
+<% header_padding = 8 %>
+<% header_width = header_inner_width + ( header_border + header_padding ) * 2 %>
+
+<% container_width = wrapper_inner_width - header_width %>
+<% container_border = 1 %>
+<% container_padding = 4 %>
+<% container_inner_width = container_width - ( container_border + container_padding ) * 2 %>
+<% container_height = wrapper_inner_height %>
+<% container_inner_height = container_height - ( container_border + container_padding ) * 2 %>
+
+body {
+    background-color: #AAA;
+}
+
+#wrapper {
+    overflow: hidden;
+    border: <%= wrapper_border %>px solid #EEE;
+    padding: 0 <%= wrapper_padding %>px <%= wrapper_padding %>px <%= wrapper_padding %>px;
+    width: <%= wrapper_inner_width %>px;
+    min-height: <%= wrapper_inner_height %>px;
+    margin: 10px auto;
+    background-color: <%= wrapper_bgcolor %>;
+}
+
+#footer {
+    padding: <%= footer_padding %>px 0;
+    height: <%= footer_inner_height %>px;
+    text-align: center;
+    font-size: 12px;
+    background-color: <%= wrapper_bgcolor %>;
+    font-weight: bold;
+    letter-spacing: 1.5em;
+}
+
+#header {
+    float: left;
+    border: <%= header_border %>px solid #888;
+    padding: 0 <%= header_padding %>px <%= header_padding %>px <%= header_padding %>px;
+    width: <%= header_inner_width %>px;
+
+    font-size: 12px;
+    text-align: center;
+
+/*    background-color: #EEE;*/
+}
+#logo {
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border: 2px solid #000;
+}
+
+#container {
+    float: right;
+    border: <%= container_border %>px solid #000;
+    padding: <%= container_padding %>px;
+    width: <%= container_inner_width %>px;
+    min-height: <%= container_inner_height %>px;
+
+/*    background-color: #EDC;*/
+}
+
+h1 {
+    background-color:#000;
+    color: #fff;
+}
+
+h1, h2, h3, h4 {
+    text-align: center;
+    font-weight: bold;
+}
+
+.row {
+    overflow: hidden;
+    padding: 4px;
+}
+
+.column {
+    overflow: hidden;
+    float: left;
+    padding: 4px;
+}
+
+.article {
+    padding: 4px;
+    border-bottom: 1px solid #DDD;
+}
+
+.article .subh {
+    padding: 8px;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.article p {
+    padding: 2px;
+}
+
+#mainRow {
+}
+
+#mainCol {
+    border-right: 6px solid #000;
+}
