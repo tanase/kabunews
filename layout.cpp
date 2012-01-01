@@ -181,7 +181,7 @@ void html_header(int date, int now) {
         html_out("日本語で読む<br /><strong>米国株ニュース</strong><br />");
     else
         html_out("<strong>個人投資家</strong>のための<br /><strong>無料株式ニュース</strong><br />");
-    html_out("<a href=\"today.html\">最新号</a><br />");
+    html_out("<a href=\"/\">最新号</a><br />");
     html_out("<a href=\"back.html\">バックナンバー</a><br />");
     html_out("</p>");
 
@@ -437,7 +437,7 @@ string Layout::url() const
 {
     char buf[100];
     sprintf(buf, "%d%02d%02d", date2year(today), date2month(today), date2day(today));
-    return string("http://sugyoku.jp/") + buf + ".html";
+    return URL + "/" + buf + ".html";
 }
 
 int Layout::render()

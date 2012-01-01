@@ -23,7 +23,7 @@ bool loadFile(const char* name, const string replace)
 {
     cerr << "----" << name << endl;
     
-    ifstream ifs(string(name) +  ".txt");
+    ifstream ifs(string(name) +  ".tmpl");
     if ( !ifs ) return false;
     string str;
     char line[1024];

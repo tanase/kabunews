@@ -6,6 +6,7 @@
 
 #define TITLE (Env::country == "us" ? "アメリカ株新聞" : "株色新聞")
 #define SUBTITLE (Env::country == "us" ? "アメリカ株情報を日本語で" : "株式投資のお供に")
+#define URL (string("http://") + (Env::country == "us" ? (string("us.sugyoku.com") + (Env::lang == "jp" ? "/jp" : "")) : string("jp.sugyoku.com")))
 
 using namespace std;
 
