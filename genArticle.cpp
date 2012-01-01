@@ -107,7 +107,6 @@ string nYenUp2String(Price n)
 {
     // !! 乱数で表現変える？
     if (Env::country == "us") {
-        cerr << "HELLO!!!! " << n << "\n";
         char buf[256];
         sprintf(buf, "%s%.2f", n > 0 ? "+" : "", n);
         return buf;

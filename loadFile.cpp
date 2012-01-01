@@ -19,7 +19,7 @@
 
 const string X = "ZZZZZZ";
 
-bool loadFile(const char* name, const string replace)
+bool loadFile(const string name, const string replace)
 {
     cerr << "----" << name << endl;
     

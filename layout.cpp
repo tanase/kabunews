@@ -455,7 +455,7 @@ int Layout::render()
     html_meta();
     html_loadCSS();
     html_title(today);
-    loadFile("analytics");
+    loadFile(string("analytics_") + Env::country + Env::lang);
     html_headStop();
 
     html_bodyStart();
