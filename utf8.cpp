@@ -52,10 +52,14 @@ double utf8len2(const string &s)
         if ( l == 1 ) {
             if ( c == '.' || c == ',' )
                 len += 0.2;
+            else if (c == 'i')
+                len += 0.5;
             else if ( c == ' ' )
                 len += 0.7;
-            else
-                len += 0.9;
+            else {
+                if ('a' <= c && c <= 'z') len += 0.8;
+                else len += 0.9;
+            }
         }
         else
             len++;

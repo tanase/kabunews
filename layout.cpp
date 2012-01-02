@@ -181,7 +181,7 @@ void html_header(int date, int now) {
         html_out("日本語で読む<br /><strong>米国株ニュース</strong><br />");
     else
         html_out("<strong>個人投資家</strong>のための<br /><strong>無料株式ニュース</strong><br />");
-    html_out("<a href=\"/\">最新号</a><br />");
+    html_out("<a href=\"\">最新号</a><br />");
     html_out("<a href=\"back.html\">バックナンバー</a><br />");
     html_out("</p>");
 
@@ -231,7 +231,7 @@ void html_h1(string str, int W) {
 
 void html_h2(string str, int W, int level, string extra_style="") {
     int len = utf8len2(str);
-    int pad = min(2, W / 20);
+    int pad = min(4, W / 20);
     int fsmin = 12, fsmax = 16;
     if (level <= 1) extra_style = ""; // 新聞らしさを残す
     if (level == 2) {
@@ -240,7 +240,7 @@ void html_h2(string str, int W, int level, string extra_style="") {
     }
     // firefoxのline-spacingが大きいので適当に調節
     int font_size = max(fsmin, min(fsmax, (W - pad * 2 - 2/* =border */) / len * 8 / 9));
-    cout << "<h2 style=\"" << (extra_style != "" ? extra_style + ";" : "") << "font-size:" << font_size << "px;line-height:1;padding:" << pad << "px;" << "\">" << str << "</h2>" << endl;
+    cout << "<h2 style=\"" << (extra_style != "" ? extra_style + ";" : "") << "font-size:" << font_size << "px;line-height:1;padding:" << pad << "px 0;" << "\">" << str << "</h2>" << endl;
 }
 
 void html_tableStart() {
