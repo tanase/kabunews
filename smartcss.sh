@@ -1,10 +1,11 @@
 FILES="*.css.erb"
+dir=`dirname $0`
 for f in ${FILES}; do
 	if [ -f $f ]; then
 		org=${f%.erb}
 		echo "-- $f"
 		tmp='tmpfile'
-		ruby smartcss.rb $f > ${tmp}
+		ruby ${dir}/smartcss.rb $f > ${tmp}
 		if [ $? -eq 0 ]; then
 			if [ "`diff ${org} ${tmp}`" != "" ]; then
 				mv ${tmp} ${org}
