@@ -186,7 +186,10 @@ void html_header(int date, int now) {
     html_out("</p>");
 
     html_out("<p style=\"margin-bottom:4px;width:120px;text-align:left;font-size:10px;color:#333;\">");
-    html_out("全上場銘柄の値動きを元に新聞風の記事を作り、重要そうな順に並べています。銘柄選びの参考にしていただければ幸いです。<br />");
+    if (Env::country == "us")
+        html_out("全ての米国株の値動きを元に新聞風の記事を作り、重要そうな順に並べています。銘柄選びの参考にしていただければ幸いです。<br />");
+    else
+        html_out("全上場銘柄の値動きを元に新聞風の記事を作り、重要そうな順に並べています。銘柄選びの参考にしていただければ幸いです。<br />");
     html_out("1日2回(前・後場終了後)更新！");
     html_out("</p>");
     
