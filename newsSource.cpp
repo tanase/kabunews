@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include "env.h"
 #include "newsSource.h"
 using namespace std;
 
