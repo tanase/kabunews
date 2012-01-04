@@ -118,7 +118,7 @@ vector<Record> NewsSource::getRecords(const string code, int today)
 bool codeIsSpecial( string code )
 {
     if (Env::country == "us") return false; // TODO
-    if (code.length < 4) return true;
+    if (code.size() < 4) return true;
     return false;
 }
 
