@@ -576,6 +576,7 @@ static bool time_just_updated(int now) {
 }
 
 static bool time_is_morning(int now) {
+    if (Env::country != "jp") return false;
     if (now != -1 && now < 150000) return true;
     return false;
 }
