@@ -28,6 +28,16 @@ static int date2year(int date) { return date / 10000; }
 static int date2month(int date) { return date % 10000 / 100; }
 static int date2day(int date) { return date % 100; }
 
+static string latest_url() {
+    if (Env::country == "jp") {
+        if (Env::lang == "en") return "/en/";
+    }
+    if (Env::country == "us") {
+        if (Env::lang == "jp") return "/jp/";
+    }
+    return "/";
+}
+
 static string css_gradient(bool vertical, int from, int to)
 {
     char buf[200];
@@ -95,6 +105,10 @@ void html_tag(string tag, T content, string klass="", string style="") {
 template<typename T>
 void html_out_type(T n) {
     cout << n << endl;
+}
+
+void html_link(string url, string desc) {
+    cout << "<a href=\"" << url << "\">" << desc << "</a>";
 }
 
 // strが日本語を仮定
@@ -181,8 +195,8 @@ void html_header(int date, int now) {
         html_out("日本語で読む<br /><strong>米国株ニュース</strong><br />");
     else
         html_out("<strong>個人投資家</strong>のための<br /><strong>無料株式ニュース</strong><br />");
-    html_out("<a href=\"\">最新号</a><br />");
-    html_out("<a href=\"back.html\">バックナンバー</a><br />");
+    html_link(latest_url(), "最新号"); html_out("<br />");
+    html_link("back.html", "バックナンバー"); html_out("<br />");
     html_out("</p>");
 
     html_out("<p style=\"margin-bottom:4px;width:120px;text-align:left;font-size:10px;color:#333;\">");
