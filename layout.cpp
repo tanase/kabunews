@@ -200,7 +200,13 @@ void html_header(int date, int now) {
 
 void html_copyright() {
     html_out("<div class=\"bg\" style=\"clear:both;text-align:right;font-size:12px;margin-bottom:-10px;\">");
-    html_out(string("Copyright © 2011 ") + TITLE + "社(ご意見・ご要望は<a href=\"http://twitter.com/kabushinbun\">@kabushinbun</a>へお願いします)");
+    if (Env::lang == "jp") {
+        html_out("内容については万全を期しておりますが、正確性について何ら保証するものではありません。");
+        if (Env::country == "jp")
+            html_out("ご意見・ご要望は<a href=\"http://twitter.com/kabushinbun\">@kabushinbun</a>へお願いします。");
+        else if (Env::country == "us")
+            html_out("ご意見・ご要望は<a href=\"http://twitter.com/americakabu\">@americakabu</a>へお願いします。");
+    }
     html_out("</div>");
 }
 
