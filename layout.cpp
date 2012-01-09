@@ -482,6 +482,8 @@ int Layout::render()
     html_headStop();
 
     html_bodyStart();
+
+    loadFile("entry");
     
     html_divIdStart("wrapper", elements + WRAPPER);
     html_topTitle(today);
