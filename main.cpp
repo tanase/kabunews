@@ -111,10 +111,10 @@ int main(int argc, char** argv)
     if (tweetfile != "" && now != -1) {
         ofstream ofs(tweetfile/*, ios_base::app*/);
         for (int i = 0; i < num_tweet; i++) {
-            // 9時とかに更新することないと思うのでtime_afterはちゃんと4桁になるはず・・
             int time = time_after(now, i * 10 * 60);
             if (time >= 235900)
                 break;
+            if (time < 100000) ofs << "0";
             ofs << time / 100 << " ";
             ofs << layout.headline_for_twitter(i, now) << endl;
         }
