@@ -152,6 +152,8 @@ string ratio2headingString(double ratio, int streak)
 // p=2: 0.1456 => 0.14, 1.462 => 1.5, 1778 => 1800
 string formatWithPrecision(double n, int p)
 {
+    assert(n > 0);
+    
     int c = 0;
     while (n < 100)
         n *= 10, c ++;
@@ -479,7 +481,8 @@ Article genArticle(NewsSource& source, Stock& stock, double entropy_yearHigh, do
                     ss_subHeading << nDaysUpStreak2String(stock.streakDays) << BY;
                 else
                     ss_subHeading << nYenUp2String(changeToday) << "の" << yen2String(stock.valueToday.end);
-                if (entropy[RATIO_THIS_YEAR] > ENTROPY_THRES)
+                
+                if (entropy[RATIO_THIS_YEAR] > ENTROPY_THRES && stock.ratioThisYear != 1)
                     ss_subHeading << "年初から" << nPercentHigher2String(stock.ratioThisYear) << "。";
             }
             else if (mostInteresting == LAST_PEAK_DATE) {
