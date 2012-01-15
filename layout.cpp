@@ -234,10 +234,11 @@ void html_rowStop() {
     cout << "</div>" << endl;
 }
 
-int html_colStart(int W, int margin = 0) {
+int html_colStart(int W, int margin = 0, string style = "") {
     W -= margin;
     cout << "<div class=\"column\" style=\"width:" << W << "px;";
     if (margin > 0) cout << "padding-right:" << margin << "px;";
+    if (style != "") cout << style;
     cout << "\">" << endl;
     return W;
 }
@@ -394,15 +395,17 @@ void Layout::renderArticle(int W, int level)
     used ++;
 }
 
-void Layout::renderLevel2Articles(int numRows, int numCols)
+void Layout::renderLevel2Articles(int numRows, int numCols, int W)
 {
-    html_rowStart(elements[CONTAINER_INNER_WIDTH], 10);
-    loadFile("link_728x15");
-    html_rowStop();
+//    html_rowStart(elements[CONTAINER_INNER_WIDTH], 10);
+//    html_rowStart(W, 10);
+//    loadFile("link_728x15");
+//    html_rowStop();
     
     for (int i = 0; i < numRows; i++) {
-        html_rowStart(elements[CONTAINER_INNER_WIDTH], elements[CONTAINER_PADDING]);
-        int width = (elements[CONTAINER_INNER_WIDTH] + elements[CONTAINER_PADDING]) / numCols;
+//        html_rowStart(elements[CONTAINER_INNER_WIDTH], elements[CONTAINER_PADDING]);
+        html_rowStart(W, elements[CONTAINER_PADDING]);
+        int width = (W + elements[CONTAINER_PADDING]) / numCols;
         for (int j = 0; j < numCols; j++) {
             int W;
             if (j == numCols - 1)
@@ -544,7 +547,20 @@ int Layout::render()
     html_colStop();
     html_rowStop();
 
+#if 22222222222222
+    {
+        html_colStart(elements[CONTAINER_INNER_WIDTH] / 2, 0);
+        renderLevel2Articles(4, 1, elements[CONTAINER_INNER_WIDTH] / 2);
+        html_colStop();
+        
+        html_colStart(elements[CONTAINER_INNER_WIDTH] / 2, 0, "min-height:320px;");
+        html_tag("h2", "株色新聞チャット", "", "font-size:20px;margin:0 6px;background:#00C;color:#FFF;");
+        loadFile("bbs");
+        html_colStop();
+    }
+#else
     renderLevel2Articles(2, 2);
+#endif
 
     renderLevel3Articles(49, 4);
 

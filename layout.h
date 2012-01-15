@@ -71,7 +71,7 @@ public:
     int render();
     void renderHeadline( int W );
     void renderArticle( int W, int level );
-    void renderLevel2Articles(int numRows, int numCols);
+    void renderLevel2Articles(int numRows, int numCols, int W);
     void renderLevel3Articles(int numRows, int numCols);
     string url() const;
     unsigned int hash() const;
