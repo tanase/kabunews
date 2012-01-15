@@ -554,7 +554,7 @@ int Layout::render()
         html_colStop();
         
         html_colStart(elements[CONTAINER_INNER_WIDTH] / 2, 0, "min-height:320px;");
-        html_tag("h2", "株色新聞チャット", "", "font-size:20px;margin:0 6px;background:#00C;color:#FFF;");
+        html_tag("h2", "みんなでチャット", "", "font-size:20px;margin:0 6px;background:#00C;color:#FFF;");
         loadFile("bbs");
         html_colStop();
     }
