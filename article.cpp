@@ -3,7 +3,7 @@
 
 Article::Article() {}
 
-Article::Article(Code& code_, string heading_, string sub_heading_, string content_, double score_, int changeToday_)
+Article::Article(Code& code_, string heading_, string sub_heading_, string content_, double score_, Price changeToday_)
     : code(code_), heading(heading_), sub_heading(sub_heading_), content(content_), score(score_), changeToday(changeToday_)
 {
 }

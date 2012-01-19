@@ -8,7 +8,7 @@ using namespace std;
 class Article {
 public:
     Article();
-    Article(Code& code_, string heading_, string sub_heading_, string content_, double score_, int changeToday_);
+    Article(Code& code_, string heading_, string sub_heading_, string content_, double score_, Price changeToday_);
     Code   code;
     string heading;
     string sub_heading;
