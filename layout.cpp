@@ -547,7 +547,7 @@ int Layout::render()
     html_colStop();
     html_rowStop();
 
-#if 22222222222222
+#if 22222222222222 * 0
     {
         html_colStart(elements[CONTAINER_INNER_WIDTH] / 2, 0);
         renderLevel2Articles(4, 1, elements[CONTAINER_INNER_WIDTH] / 2);
@@ -559,7 +559,7 @@ int Layout::render()
         html_colStop();
     }
 #else
-    renderLevel2Articles(2, 2);
+    renderLevel2Articles(2, 2, elements[CONTAINER_INNER_WIDTH]);
 #endif
 
     renderLevel3Articles(49, 4);
