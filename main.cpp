@@ -13,7 +13,7 @@ void usage()
     cerr << "OPTIONS:" << endl;
     cerr << "  -today 20110718" << endl;
     cerr << "  -db hoge.sqlite3" << endl;
-    cerr << "  -symbolprefix AA   ==> code(symbol) starting with AA, AAPL for example" << endl;
+    cerr << "  -prefix AA   ==> code(symbol) starting with AA, AAPL for example" << endl;
     cerr << "  -now 222357" << endl;
     cerr << "  -hashfile 20110718.hash" << endl;
     cerr << "  -tweetfile TWEET_QUEUE 10    ==> Write top 10 articles in a file named TWEET_QUEUE" << endl;
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     fprintf(stderr, "preparing ..\r");
     string dbfile = "../kabudata/data.db";
     int today = 20110428;
-    string symbolPrefix = "";
+    string prefix = "";
     int now = -1;
     string hashfile;
     string tweetfile;
@@ -47,9 +47,9 @@ int main(int argc, char** argv)
             take_n_arguments(1, i, argc);
             dbfile = string(argv[++i]);
         }
-        else if (string(argv[i]) == "-symbolprefix") {
+        else if (string(argv[i]) == "-prefix") {
             take_n_arguments(1, i, argc);
-            symbolPrefix = string(argv[++i]);
+            prefix = string(argv[++i]);
         }
         else if (string(argv[i]) == "-now") {
             take_n_arguments(1, i, argc);
@@ -95,7 +95,7 @@ int main(int argc, char** argv)
         cerr << "probably " << dbfile << " does not exist!" << endl;
         exit(1);
     }
-    NewsSource source(db, today, symbolPrefix);
+    NewsSource source(db, today, prefix);
     source.collect();
     cerr << string(100,' ') << '\r' << "done collecting\n";
     vector<Article> articles = generateArticles(source);
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
         }
 #endif
     }
-
+    
     for (int i = 0; i < companybots.size(); i++) {
         string code = companybots[i].first;
         string tweetfile = companybots[i].second;
