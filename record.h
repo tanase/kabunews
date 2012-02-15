@@ -36,7 +36,7 @@ public:
     bool isset() const { return code != "INVALID"; }
     bool hasVal() const { return end > 0; }
     void print() const;
-    long long trade() const;
+    double trade() const;
 
     Price getStart() const {return start * split;}
     Price getHigh() const {return high * split;}

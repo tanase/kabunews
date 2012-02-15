@@ -18,7 +18,7 @@
 #include "record.h"
 using namespace std;
 
-long long Record::trade() const
+double Record::trade() const
 {
     return ( high + low ) * volume / 2;
 }
