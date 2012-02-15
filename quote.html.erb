@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+</head>
+
+<body>
+  <h1><%= name %>(<%= symbol %>)</h1>
+
+  <a href="http://stocks.finance.yahoo.co.jp/stocks/chart/?code=<%= symbol %>.<%= exchange %>&ct=z&t=1y&q=c&l=off&z=m&p=m65,m130,s&a=v"><img src="http://gchart.yahoo.co.jp/z?s=<%= symbol %>.<%= exchange %>&t=1y&q=c&l=off&z=m&p=m65,m130,s&a=v&c=  " /></a>
+
+
+  <h2>値動きの似ている銘柄</h2>
+  <%- similars.each do |quote| -%>
+  <%= quote %><br />
+  <%- end -%>
+
+  <h2><%= name %>株保有者の予想損益率</h2>
+  ヒストグラム的なものをチャート状に表示したい。
+  <div>予想平均購入価格：2343円(-12.34%)</div>
+
+  <h2></h2>
+  
+  
+</body>
+
+</html>
