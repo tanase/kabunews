@@ -16,7 +16,6 @@ static unsigned int __hash[] = {
 unsigned int hash(string str)
 {
     unsigned int res = 0;
-    srand(0);
     for (int i = 0; i < str.size(); i++)
         res ^= __hash[(int)str[i]];
     return res;
