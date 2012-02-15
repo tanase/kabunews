@@ -1,5 +1,6 @@
 #include "article.h"
 #include "util.h"
+#include "env.h"
 
 Article::Article() {}
 
@@ -18,7 +19,7 @@ bool Article::operator<( const Article& o ) const
 string Article::prefix() const
 {
     string url = yahooURL(code.code);
-    return urlwrap( url, code.shortName ) + " (" + code.code + "," + code.exchange + ")" + "が";
+    return urlwrap( url, code.shortName ) + " (" + code.code + "," + code.exchange + ")" + (Env::lang == "jp" ? "が" : " ");
 }
 
 string Article::prefixSimple() const
@@ -32,7 +33,7 @@ unsigned int Article::hash() const {
 
 void Article::print() const
 {
-    code.print("\n");
+    cerr << code.to_s() << endl;
     cerr << heading << endl;
     cerr << sub_heading << endl;
     cerr << content << endl;

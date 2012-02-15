@@ -19,6 +19,7 @@
 #include "layout.h"
 #include "util.h"
 #include "env.h"
+#include "strings.h"
 
 using namespace layout;
 
@@ -62,9 +63,7 @@ static int randFromStr(string str)
 
 static string date2str1(int date)
 {
-    stringstream ss;
-    ss << date2year(date) << "年" << date2month(date) << "月" << date2day(date) << "日";
-    return ss.str();
+    return I19_date2str(date2year(date), date2month(date), date2day(date));
 }
 
 static string date2str2(int date)
@@ -154,7 +153,10 @@ void html_title(int date) {
 }
 
 void html_bodyStart() {
-    cout << "<body>" << endl;
+    if (Env::lang == "en")
+        cout << "<body style=\"font-size:10px;\">" << endl;
+    else
+        cout << "<body>" << endl;
 }
 void html_bodyStop() {
     cout << "</body>" << endl;
@@ -171,7 +173,8 @@ void html_divIdStop() {
 }
 
 void html_topTitle(int date) {
-    cout << "<div class=\"bg\" style=\"text-align:center;font-weight:bold;font-size:12px;letter-spacing:1.5em;margin-top:-10px;\">" << endl;
+    string spacing = Env::lang == "en" ? "1.0" : "1.5";
+    cout << "<div class=\"bg\" style=\"text-align:center;font-weight:bold;font-size:12px;letter-spacing:" << spacing << "em;margin-top:-10px;\">" << endl;
     cout << date2str1(date) << " " << TITLE << endl;
     cout << "</div>" << endl;
 }
@@ -188,23 +191,17 @@ void html_header(int date, int now) {
     html_out_vertical(TITLE);
     html_out("</div>");
     html_out("<p style=\"margin-bottom:4px;\">");
-    html_out("<span style=\"letter-spacing:-0.05em\">" + date2str1(date) + "</span>" + "版" + "<br />");
+    html_out("<span style=\"letter-spacing:-0.05em\">" + date2str1(date) + "</span>" + (Env::lang == "jp" ? "版" : "") + "<br />");
     if (now >= 0)
         cout << "最終更新:" << now2str(now) << "<br />" << endl;
-    if (Env::country == "us")
-        html_out("日本語で読む<br /><strong>米国株ニュース</strong><br />");
-    else
-        html_out("<strong>個人投資家</strong>のための<br /><strong>無料株式ニュース</strong><br />");
-    html_link(latest_url(), "最新号"); html_out("<br />");
-    html_link("back.html", "バックナンバー"); html_out("<br />");
+    html_out(I19_about());
+    html_link(latest_url(), I19_latestIssue()); html_out("<br />");
+    html_link("back.html", I19_backnumber()); html_out("<br />");
     html_out("</p>");
 
     html_out("<p style=\"margin-bottom:4px;width:120px;text-align:left;font-size:10px;color:#333;\">");
-    if (Env::country == "us")
-        html_out("全ての米国株の値動きを元に新聞風の記事を作り、重要そうな順に並べています。銘柄選びの参考にしていただければ幸いです。<br />");
-    else
-        html_out("全上場銘柄の値動きを元に新聞風の記事を作り、重要そうな順に並べています。銘柄選びの参考にしていただければ幸いです。<br />");
-    html_out("1日2回(前・後場終了後)更新！");
+    html_out(I19_detailedAbout());
+    html_out(I19_updateTwice());
     html_out("</p>");
     
     loadFile("ad_120x600");
@@ -497,7 +494,7 @@ int Layout::render()
 
     for (int group = 0; group < 2; group++) {
         html_out("<div style=\"float:left; margin-top:10px;\">");
-        html_tag("h3", group == 0 ? "勝ち組ランキング" : "負け組ランキング");
+        html_tag("h3", group == 0 ? I19_winnersRanking(date2year(today)) : I19_losersRanking(date2year(today)));
         html_out("<table style=\"font-size:11px;\">");
         Ranking& stocks = (group == 0 ? yearWinnerLoserRankings.first : yearWinnerLoserRankings.second);
         char buf[200];
@@ -562,7 +559,7 @@ int Layout::render()
     renderLevel2Articles(2, 2, elements[CONTAINER_INNER_WIDTH]);
 #endif
 
-    renderLevel3Articles(49, 4);
+    renderLevel3Articles(Env::country == "us" ? 66 : 50, Env::country == "us" ? 3 : 4);
 
     html_divIdStop();           // container
 
@@ -577,7 +574,8 @@ int Layout::render()
 
 unsigned int Layout::hash() const {
     unsigned int res = 0;
-    for (vector<Article>::const_iterator it = articles.begin(); it != articles.end(); it++)
+    int i;
+    for (vector<Article>::const_iterator it = articles.begin(), i = 0; it != articles.end() && i < used; it++)
         res ^= it->hash();
     for (vector<Summary>::const_iterator it = summary.begin(); it != summary.end(); it++)
         res ^= it->hash();
