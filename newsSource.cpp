@@ -26,9 +26,11 @@ Code::Code( string code_, string exchange_, string shortName_, string industry_ 
     code(code_), shortName(shortName_), exchange(exchange_), industry(industry_)
 {}
 
-void Code::print(string eol) const
+string Code::to_s() const
 {
-    cerr << shortName << "[" << exchange << "]" << "(" << code << "," << industry << ")" << eol;
+    stringstream ss;
+    ss << shortName << "[" << exchange << "]" << "(" << code << "," << industry << ")";
+    return ss.str();
 }
 
 bool Code::operator<(const Code& other) const {
@@ -192,6 +194,7 @@ void NewsSource::collect()
 string NewsSource::getNameOfCode(string code) const {
     for (int i = 0; i < codes.size(); i++)
         if (codes[i].code == code) return codes[i].shortName;
+    return "";
 }
 
 int NewsSource::numSatisfy_yearHigh() const {

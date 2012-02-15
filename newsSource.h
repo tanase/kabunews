@@ -15,7 +15,7 @@ struct Code {
     Code();
     Code( string code_, string exchange_, string shortName_, string industry_ );
     
-    void print(string eol) const;
+    string to_s() const;
     bool operator<(const Code& other) const;
 };
 
