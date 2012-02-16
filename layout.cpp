@@ -574,9 +574,8 @@ int Layout::render()
 
 unsigned int Layout::hash() const {
     unsigned int res = 0;
-    int i;
-    for (vector<Article>::const_iterator it = articles.begin(), i = 0; it != articles.end() && i < used; it++)
-        res ^= it->hash();
+    for (int i = 0; i < used; i++)
+        res ^= articles[i].hash();
     for (vector<Summary>::const_iterator it = summary.begin(); it != summary.end(); it++)
         res ^= it->hash();
     return res;
