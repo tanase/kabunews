@@ -44,7 +44,7 @@ double ratio(double from, double to, double C)
 pair<int,pair<double,double> > calcUpStreak( vector<Record>& records )
 {
     const double C = 20;
-    if ( records.size() == 0 ) return make_pair(0, make_pair(0,0));
+    if ( records.size() == 0 ) return make_pair(0, make_pair(UNDEF, UNDEF));
     int days = 0;
     for ( int i = records.size() - 1; i >= 1; i -- ) {
         Price cur = records[i].end;

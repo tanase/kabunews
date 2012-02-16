@@ -225,6 +225,7 @@ int NewsSource::numSatisfy_streakDays( int days ) const {
 int NewsSource::numSatisfy_streakIncrease( double increase ) const {
     int res = 0;
     for ( int i = 0; i < (int)stocks.size(); i ++ ) {
+        if (stocks[i].streakIncrease == UNDEF) continue;
         if ( ( increase > 1 && stocks[i].streakIncrease >= increase ) || ( increase < 1 && stocks[i].streakIncrease <= increase ) )
             res ++;
     }
@@ -234,6 +235,7 @@ int NewsSource::numSatisfy_streakIncrease( double increase ) const {
 int NewsSource::numSatisfy_streakIncrease_modified( double increase ) const {
     int res = 0;
     for ( int i = 0; i < (int)stocks.size(); i ++ ) {
+        if (stocks[i].streakIncrease_modified == UNDEF) continue;
         if ( ( increase > 1 && stocks[i].streakIncrease_modified >= increase ) || ( increase < 1  && stocks[i].streakIncrease_modified <= increase ) )
             res ++;
     }
