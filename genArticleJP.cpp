@@ -352,7 +352,9 @@ Article genArticleJP(NewsSource& source, Stock& stock, double entropy_yearHigh, 
             ss_content << nDaysUpStreak2String(stock.streakDays);
             ss_content << END;
         }
-        if (abs(stock.streakDays) > 1 && entropy[STREAK_INCREASE] > ENTROPY_THRES && (stock.streakIncrease - 1) > (ratioToday - 1) * 1.5) {
+        if (abs(stock.streakDays) > 1 && entropy[STREAK_INCREASE] > ENTROPY_THRES &&
+            ((stock.streakIncrease > 1 && (stock.streakIncrease - 1) > (ratioToday - 1) * 1.5) ||
+             (stock.streakIncrease < 1 && (1 - stock.streakIncrease) > (1 - ratioToday) * 1.5))) {
             ss_content << abs(stock.streakDays) << "日間" << IN << nPercentUp2String(stock.streakIncrease);
             ss_content << END;
         }
@@ -385,9 +387,12 @@ Article genArticleJP(NewsSource& source, Stock& stock, double entropy_yearHigh, 
                 ss_content << bounceLevel2String(bounce_level);
             }
             ss_content << END;
+
             if (abs(stock.streakDays) > 1) {
                 ss_content << nDaysUpStreak2String(stock.streakDays) << END;
-                if (entropy[STREAK_INCREASE] > ENTROPY_THRES) {
+                if (/*entropy[STREAK_INCREASE] > ENTROPY_THRES &&*/
+                    ((stock.streakIncrease > 1 && (stock.streakIncrease - 1) > (ratioToday - 1) * 1.5) ||
+                     (stock.streakIncrease < 1 && (1 - stock.streakIncrease) > (1 - ratioToday) * 1.5))) {
                     ss_content << abs(stock.streakDays) << "日間" << IN << nPercentUp2String(stock.streakIncrease);
                     ss_content << END;
                 }
