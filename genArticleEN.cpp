@@ -338,7 +338,7 @@ Article genArticleEN(NewsSource& source, Stock& stock, double entropy_yearHigh, 
     if (abs(stock.streakDays) > 1) {
         ss_content << nDaysUpStreak2String(stock.streakDays);
         // ５連騰＆その間にN％上昇
-        if (abs(stock.streakDays) > 1 && entropy[STREAK_INCREASE] > ENTROPY_THRES && (stock.streakIncrease - 1) > (ratioToday - 1) * 1.5) {
+        if (abs(stock.streakDays) > 1 && entropy[STREAK_INCREASE] > ENTROPY_THRES && fabs(stock.streakIncrease - 1) > fabs(ratioToday - 1) * 1.5) {
             ss_content << COMMA;
             ss_content << gainingNPercent2String(stock.streakIncrease);
             ss_content << " meanwhile" << END;
