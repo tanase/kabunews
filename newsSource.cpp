@@ -102,12 +102,12 @@ void NewsSource::getCodes() {
 
 enum {CODE = 0, DATE, START, HIGH, LOW, END, VOLUME, SPLIT};
 
-vector<Record> NewsSource::getRecords(const string code, int today)
+vector<Record> NewsSource::getRecords(const string symbol, int today)
 {
     vector<Record> res;
     Table table;
     stringstream ss;
-    ss << "SELECT * FROM records WHERE code='" << code << "' AND date <=" << today
+    ss << "SELECT * FROM records WHERE code='" << symbol << "' AND date <=" << today
        << " ORDER BY date ASC";
     db.select( ss.str(), table );
     for ( int i = 0; i < (int)table.size(); i ++ ) {

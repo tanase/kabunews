@@ -64,7 +64,7 @@ public:
     SQLite3Wrapper& db;
     NewsSource(SQLite3Wrapper& db_, int today_, string symbolPrefix_ = "");
     vector<Stock> stocks;
-    vector<Record> getRecords(const string code, int today);
+    vector<Record> getRecords(const string symbol, int today);
     void collect();
     string getNameOfCode(string code) const;
 
