@@ -53,14 +53,17 @@ int nMonthsAgo(int today, int n)
 string urlwrap(string url, string text)
 {
     stringstream ss;
-    ss << "<a href=\"" << url << "\" target=\"_blank\">" << text << "</a>";
+//    ss << "<a href=\"" << url << "\" target=\"_blank\">" << text << "</a>";
+    ss << "<a href=\"" << url << "\">" << text << "</a>";
     return ss.str();
 }
 
-string yahooURL(string code)
+string quoteURL(string code)
 {
     return
         Env::country == "us" ?
         "http://finance.yahoo.com/q?s=" + code + "&ql=1" :
-        "http://stocks.finance.yahoo.co.jp/stocks/chart/?code=" + code;
+        //"http://stocks.finance.yahoo.co.jp/stocks/chart/?code=" + code;
+        // 内部サイトに誘導
+        "quotes/" + code + ".html";
 }

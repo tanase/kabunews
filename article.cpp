@@ -18,7 +18,7 @@ bool Article::operator<( const Article& o ) const
 
 string Article::prefix() const
 {
-    string url = yahooURL(code.code);
+    string url = quoteURL(code.code);
     return urlwrap( url, code.shortName ) + " (" + code.code + "," + code.exchange + ")" + (Env::lang == "jp" ? "が" : " ");
 }
 

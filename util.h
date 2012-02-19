@@ -9,6 +9,6 @@ unsigned int hash(string str);
 int time_after(int now, int m);
 int nMonthsAgo(int today, int n);
 string urlwrap(string url, string text);
-string yahooURL(string code);
+string quoteURL(string code);
 
 #endif  /* UTIL_H */

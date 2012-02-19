@@ -508,7 +508,7 @@ int Layout::render()
             html_tag("td", buf, "", "text-align:right;padding-right:2px;");
             sprintf(buf, "%d%%", ratio);
             html_tag("td", buf, group == 0 ? "up" : "down", "padding-right: 2px;");
-            html_tag("td", urlwrap(yahooURL(code), name));
+            html_tag("td", urlwrap(quoteURL(code), name));
             html_out("</tr>");
         }
         html_out("</table>");
