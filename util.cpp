@@ -39,6 +39,17 @@ int time_after(int now, int s)
     return hms_toi(hour, minute, second);
 }
 
+// Nヶ月前(N < 12) あまり細かいことは考えない(20120231とかも出てくる)
+int nMonthsAgo(int today, int n)
+{
+    int mon = today % 10000 / 100;
+    if (mon > n) return today - n * 100;
+    int year = today / 10000;
+    mon = (mon - 1 + 12 - n) % 12 + 1;
+    year--;
+    return year * 10000 + mon * 100 + today % 100;
+}
+
 string urlwrap(string url, string text)
 {
     stringstream ss;
