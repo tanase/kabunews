@@ -1,8 +1,13 @@
 <% def date_to_s(date) y,m,d = parse_date(date); html = "#{date}.html"; "<a href=\"#{File.join($url, html)}\">#{y}/#{m}/#{d}</a>" end %>
 <%
-   wrapper_width = 680
-   navi_width = 120
-   main_width = wrapper_width - navi_width
+   wrapper_width = 720
+   navi_width = 140
+   navi_padding = 4
+   navi_exterior_width = navi_width + navi_padding * 2
+   main_exterior_width = wrapper_width - navi_exterior_width
+   main_border = 1
+   main_padding = 4
+   main_width = main_exterior_width - main_border * 2 - main_padding * 2
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -14,14 +19,15 @@
   <style>
     * {margin:0; padding:0}
     body {font-size:12px;/* background:#EEE;*/}
+    ul {list-style-type:none;}
     .maincolumn {height:600px;}
     #wrapper {width:<%= wrapper_width %>px; margin:0 auto;/* background:#FFF;*/}
-    #navi {float:left; background:#EEF2FA; font-size:11px; width:<%= navi_width %>px;}
-    #main {float:left; margin:0 auto;/* background:#FCF;*/ width:<%= main_width %>px;}
+    #navi {float:left; background:#EEF2FA; font-size:11px; width:<%= navi_width %>px; padding:2px <%= navi_padding %>px;}
+    #main {float:left; margin:0 auto;/* background:#FCF;*/ width:<%= main_width %>px; border-left:<%= main_border %>px solid #CCC; border-bottom:1px solid #CCC; border-right:<%= main_border %>px solid #CCC; padding:2px <%= main_padding %>px;}
     #logo a {font-size:1.5em; text-decoration:none; font-weight:bold; color:#0080FF;}
     #stockchart {width:512px; margin:0 auto;}
     #footer {clear:both;/* background:#CFF;*/ text-align:center;}
-    h1 {font-size:1.2em; padding:6px 0; border-top:2px solid #000; border-bottom:2px solid #000; margin-bottom:6px;}
+    h1 {font-size:1.2em; padding:6px 0; border:1px solid #CCC; text-align:center; background:#1D4088; color:#FFF;}
     h2 {font-size:1.0em;}
     .range {font-size:10px;}
     .label {margin-top:2px;}
@@ -37,6 +43,7 @@
     .graph .loading {background: url(./ajax-loader.gif) no-repeat center center;}
     .ord {text-align:right; font:93%/93% arial;}
     .cor {font:bold 93%/93% arial;}
+    .block {margin:0 auto;}
   </style>
 <!--   <script src="http://code.jquery.com/jquery-latest.js"></script> -->
   <script src="./jquery.min.js"></script>
@@ -68,14 +75,14 @@
     }
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-26425530-1']);
+  _gaq.push(['_setAccount', 'UA-28037627-1']);
   _gaq.push(['_trackPageview']);
 
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+  })();	
 
 </script>
       
@@ -92,16 +99,18 @@
     <h1><%= basics[:name] %>(<%= basics[:symbol] %>)</h1>
     
     <div class="maincolumn" id="navi">
-      <h2>値動きの似ている銘柄</h2>
-      <table>
-	<% correlated.each do |t| %>
-	<tr>
-	  <td class="ord"><%= t[:ord] %>.</td>
-	  <td class="name"><a href="<%= t[:symbol] %>.html"><%= t[:name] %></a></td>
-	  <td class="cor"><%= "%.3f" % t[:cor] %></td>
-	</tr>
-	<% end %>
-      </table>
+      <div class="block">
+	<h2>値動きの似ている銘柄</h2>
+	<table>
+	  <% correlated.each do |t| %>
+	  <tr>
+	    <td class="ord"><%= t[:ord] %>.</td>
+	    <td class="name"><a href="<%= t[:symbol] %>.html"><%= t[:name] %></a></td>
+	    <td class="cor"><%= "%.3f" % t[:cor] %></td>
+	  </tr>
+	  <% end %>
+	</table>
+      </div>
     </div>
     <div class="maincolumn" id="main">
       <!--     <a onclick="load_page('4501')">2432</a> -->
@@ -134,7 +143,7 @@
       </table>
       <% end %>
       
-      <h2>自動生成ニュース</h2>
+      <h2>株色新聞ニュース</h2>
       <ul class="articles">
 	<% articles.each do |article| %>
 	<li>
