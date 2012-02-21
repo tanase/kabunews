@@ -3,8 +3,11 @@ $:.unshift(File.dirname(__FILE__))
 require '../kabudata/quotedatabase'
 require 'optparse'
 require 'erb'
+require 'util'
 
-def render(company, dir, miscdir)
+$url = "http://jp.sugyoku.com"
+
+def render(company, dir, template, miscdir)
   basics = {}
   basics[:symbol] = company['code']
   basics[:name] = company['short_name']
@@ -63,9 +66,13 @@ def render(company, dir, miscdir)
     rescue => e
     end
   end
-  
+
+  #
+  articles = $db.get_articles(basics[:symbol])
+
+  # ERB!
   File::open(dir + "/" + company['code'] + ".html", 'w') do |f|
-    erb = ERB.new(File.read('quote.html.erb'))
+    erb = ERB.new(File.read(template))
     
     f.puts erb.result(binding)
   end
@@ -76,19 +83,21 @@ def main()
   dir = '/tmp'
   prefix = nil
   miscdir = {}
+  template = 'quote.html.erb'
   
   opt = OptionParser.new
   opt.on('--deploydir DIR') {|v| dir = v}
   opt.on('--prefix PREFIX') {|v| prefix = v}
   opt.on('--cordir CORDIR') {|v| miscdir[:cor] = v}
   opt.on('--pedir PEDIR') {|v| miscdir[:pe] = v}
+  opt.on('--template TEMPLATE') {|v| template = v}
   opt.parse!(ARGV)
 
-  db = QuoteDatabase.new(dbname)
+  $db = QuoteDatabase.new(dbname)
   
-  companies = db.get_company_list(prefix)
+  companies = $db.get_company_list(prefix)
   companies.each do |company|
-    render(company, dir, miscdir)
+    render(company, dir, template, miscdir)
   end
 end
 

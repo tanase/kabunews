@@ -129,7 +129,8 @@ int main(int argc, char** argv)
         }
 #endif
     }
-    
+
+    //
     for (int i = 0; i < companybots.size(); i++) {
         string code = companybots[i].first;
         string tweetfile = companybots[i].second;
@@ -143,6 +144,21 @@ int main(int argc, char** argv)
                     ofs << layout.headline_for_twitter(j, now) << endl;
                 }
             }
+        }
+    }
+
+    // 記事をdatabaseに保存
+    for (int i = 0; i < articles.size(); i++) {
+        try {
+            stringstream ss;
+            ss << "UPDATE articles SET (symbol,date,title,subtitle,content) = ('" << articles[i].code.code << "'," << today << ",'" << articles[i].heading << "','" << articles[i].sub_heading << "','" << articles[i].content << "')";
+            db.execute(ss.str());
+        }
+        catch (...) {
+            cerr << "CAUGHT!!!\n";
+            stringstream ss;
+            ss << "INSERT INTO articles VALUES ('" << articles[i].code.code << "'," << today << ",'" << articles[i].heading << "','" << articles[i].sub_heading << "','" << articles[i].content << "')";
+            db.execute(ss.str());
         }
     }
 
