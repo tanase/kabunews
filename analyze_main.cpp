@@ -127,6 +127,9 @@ int main( int argc, char** argv )
                 if (i == j) continue;
                 Code codeJ = records[j].first;
                 if (codeB != "" && codeJ.code != codeB) continue;
+                // 上場廃止など(１ヶ月以上前からデータなし)
+                if (records[j].second.back().date < nMonthsAgo(records[i].second.back().date, 1))
+                    continue;
                 double t = correlation2(records[i].second, records[j].second);
                 if (t > 1 || t < -1) continue;
                 corrCodes.push_back(make_pair(t, codeJ));
