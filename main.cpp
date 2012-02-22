@@ -152,7 +152,7 @@ int main(int argc, char** argv)
         int error = 0;
         {
             stringstream ss;
-            ss << "UPDATE articles SET (symbol,date,title,subtitle,content) = ('" << articles[i].code.code << "'," << today << ",'" << articles[i].heading << "','" << articles[i].sub_heading << "','" << articles[i].content << "')";
+            ss << "UPDATE articles SET title='" << articles[i].heading << "', subtitle='" << articles[i].sub_heading << "', content='" <<  articles[i].content << "' WHERE code='" << articles[i].code.code << "' AND date=" << today;
             error = db.execute(ss.str());
         }
         if (error) {
