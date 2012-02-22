@@ -149,16 +149,20 @@ int main(int argc, char** argv)
 
     // 記事をdatabaseに保存
     for (int i = 0; i < articles.size(); i++) {
-        try {
+        int error = 0;
+        {
             stringstream ss;
             ss << "UPDATE articles SET (symbol,date,title,subtitle,content) = ('" << articles[i].code.code << "'," << today << ",'" << articles[i].heading << "','" << articles[i].sub_heading << "','" << articles[i].content << "')";
-            db.execute(ss.str());
+            error = db.execute(ss.str());
         }
-        catch (...) {
+        if (error) {
             cerr << "CAUGHT!!!\n";
             stringstream ss;
             ss << "INSERT INTO articles VALUES ('" << articles[i].code.code << "'," << today << ",'" << articles[i].heading << "','" << articles[i].sub_heading << "','" << articles[i].content << "')";
-            db.execute(ss.str());
+            error = db.execute(ss.str());
+            if (error) {
+                cerr << "NOW WHAT??\n";
+            }
         }
     }
 
