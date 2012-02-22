@@ -1,15 +1,37 @@
+<% def date_to_s(date) y,m,d = parse_date(date); html = "#{date}.html"; "<a href=\"#{File.join($url, html)}\">#{y}/#{m}/#{d}</a>" end %>
+<%
+   wrapper_width = 720
+   navi_width = 140
+   navi_padding = 4
+   navi_exterior_width = navi_width + navi_padding * 2
+   main_exterior_width = wrapper_width - navi_exterior_width
+   main_border = 1
+   main_padding = 4
+   main_width = main_exterior_width - main_border * 2 - main_padding * 2
+   general_margin = 8
+   general_padding = 2
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title><%= basics[:name] %> - 株色新聞</title>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta name="description" content="株色新聞の<%= basics[:name] %>についての記事一覧、値動きの似た銘柄ランキングなど独自情報満載。" />
   <style>
-    * {font-size:12px;}
-    #container {margin:0 auto;}
+    * {margin:0; padding:0}
+    body {font-size:12px;/* background:#EEE;*/}
+    td {vertical-align:top;}
+    .maincolumn {height:600px;}
+    #wrapper {width:<%= wrapper_width %>px; margin:0 auto;/* background:#FFF;*/}
+    #navi {float:left; background:#EEF2FA; font-size:11px; width:<%= navi_width %>px; padding:2px <%= navi_padding %>px;}
+    #main {float:left; margin:0 auto;/* background:#FCF;*/ width:<%= main_width %>px; border-left:<%= main_border %>px solid #CCC; border-bottom:1px solid #CCC; border-right:<%= main_border %>px solid #CCC; padding:2px <%= main_padding %>px;}
     #logo a {font-size:1.5em; text-decoration:none; font-weight:bold; color:#0080FF;}
-    #stockchart {width:512px;}
-    h1 {font-size:1.2em;}
+    #stockchart {width:512px; margin:0 auto;}
+    #footer {clear:both;/* background:#CFF;*/ text-align:center;}
+    h1 {font-size:1.2em; padding:6px 0; border:1px solid #CCC; text-align:center; background:#1D4088; color:#FFF;}
+    h2 {font-size:1.0em;}
     .range {font-size:10px;}
     .label {margin-top:2px;}
     .range .label {color:#222; font-weight:bold;}
@@ -22,7 +44,11 @@
     .graph-label {text-align:center; font-weight:bold;}
     .graph {height: 301px;}
     .graph .loading {background: url(./ajax-loader.gif) no-repeat center center;}
-    .ord {text-align:right;}
+    .ord {text-align:right; font:93%/93% arial;}
+    .cor {font:bold 93%/93% arial;}
+    .block {margin:0 auto;}
+    #articles {margin-top: <%= general_margin %>px;}
+    #articles table td {padding: <%= general_padding %>px;}
   </style>
 <!--   <script src="http://code.jquery.com/jquery-latest.js"></script> -->
   <script src="./jquery.min.js"></script>
@@ -54,81 +80,96 @@
     }
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-26425530-1']);
+  _gaq.push(['_setAccount', 'UA-28037627-1']);
   _gaq.push(['_trackPageview']);
 
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+  })();	
 
 </script>
       
 </head>
 
 <body>
-  <div id="header">
-    <div id="logo"><a href="http://jp.sugyoku.com/">株色新聞</a></div>
-<!--     <a href="https://twitter.com/share" class="twitter-share-button" data-url="ZZZZZZ" data-count="horizontal">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script> -->
-<!--     <iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=189373767787690" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe> -->
-  </div>
-  <div id="container">
-<!--     <a onclick="load_page('4501')">2432</a> -->
+  <div id="wrapper">
+    <div id="header">
+      <div id="logo"><a href="http://jp.sugyoku.com/">株色新聞</a></div>
+      <!--     <a href="https://twitter.com/share" class="twitter-share-button" data-url="ZZZZZZ" data-count="horizontal">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script> -->
+      <!--     <iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=189373767787690" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe> -->
+    </div>
+    
     <h1><%= basics[:name] %>(<%= basics[:symbol] %>)</h1>
-
-    <div id="stockchart">
-      <div class="graph-label"></div>
-      <div class="graph">
-      </div>
-      <div class="spanlist">
+    
+    <div class="maincolumn" id="navi">
+      <div class="block">
+	<h2>値動きの似ている銘柄</h2>
+	<table>
+	  <% correlated.each_with_index do |t, i| %>
+	  <tr>
+	    <td class="ord"><%= t[:ord] %>.</td>
+	    <td class="name"><a href="<%= t[:symbol] %>.html"><%= t[:name] %></a></td>
+	    <td class="cor"><%= "%.3f" % t[:cor] %></td>
+	  </tr>
+	  <% break if i == 19 %>
+	  <% end %>
+	</table>
       </div>
     </div>
+    <div class="maincolumn" id="main">
+      <!--     <a onclick="load_page('4501')">2432</a> -->
+      <div id="stockchart">
+	<div class="graph-label"></div>
+	<div class="graph">
+	</div>
+	<div class="spanlist">
+	</div>
+      </div>
 
-    <h2>値動きの似ている銘柄</h2>
-    <table>
-    <% correlated.each do |t| %>
-    <tr>
-      <td class="ord"><%= t[:ord] %>.</td>
-      <td class="name"><a href="<%= t[:symbol] %>.html"><%= t[:name] %></a></td>
-      <td class="cor"><%= "%.3f" % t[:cor] %></td>
-    </tr>
-    <% end %>
-    </table>
-    
-    <% if estimated_ave %>
-    <h2><%= basics[:name] %>株保有者の予想損益率</h2>
-    <div>予想平均購入価格：<%= "%.1f" % estimated_ave %>円(-12.34%)</div>
-    <table>
-      <% estimated_histogram.each do |range, value| %>
-      <tr>
-      <tr class="range">
-	<td class="label"><%= range %></td>
-	<td>
-	  <% width = (280 * value).to_i %>
-	  <% if width > 0 %>
-	  <div class="chart" style="width:<%= width %>px;"><span>.</span></div>
+      <% if estimated_ave %>
+      <h2><%= basics[:name] %>株保有者の予想損益率</h2>
+      <div>予想平均購入価格：<%= "%.1f" % estimated_ave %>円(-12.34%)</div>
+      <table>
+	<% estimated_histogram.each do |range, value| %>
+	<tr>
+	<tr class="range">
+	  <td class="label"><%= range %></td>
+	  <td>
+	    <% width = (280 * value).to_i %>
+	    <% if width > 0 %>
+	    <div class="chart" style="width:<%= width %>px;"><span>.</span></div>
+	    <% end %>
+	    <div class="label tag"><%= "%.1f%%" % (100 * value) %></div>
+	  </td>
+	</tr>
+	</tr>
+	<% end %>
+      </table>
+      <% end %>
+
+      <div id="articles">
+	<h2>株色新聞ニュース</h2>
+	<table class="articles">
+	  <% articles.each do |article| %>
+	  <tr>
+	    <td class="date">
+	      <%= date_to_s(article['date']) %>
+	    </td>
+	    <td class="content">
+	      <%= article['content'] %>
+	    </td>
+	  </tr>
 	  <% end %>
-	  <div class="label tag"><%= "%.1f%%" % (100 * value) %></div>
-	</td>
-      </tr>
-      </tr>
-      <% end %>
-    </table>
-    <% end %>
-    
-    <h2>自動生成ニュース</h2>
-    <ul class="articles">
-      <% articles.each do |article| %>
-      <li class="content">
-	<%= article['content'] %>
-      </li>
-      <% end %>
-    </ul>
-  </div>
+	</table>
+      </div>
+      
+    </div>
 
-  <div id="footer">
-    <a href="http://jp.sugyoku.com">Home</a> ©株色新聞 ご意見・ご要望は<a href="http://twitter.com/kabushinbun">@kabushinbun</a>へ
+    <div id="footer">
+      <a href="http://jp.sugyoku.com">Home</a> ©株色新聞 ご意見・ご要望は<a href="http://twitter.com/kabushinbun">@kabushinbun</a>へ
+    </div>
   </div>
 </body>
 
