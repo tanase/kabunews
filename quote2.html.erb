@@ -8,6 +8,8 @@
    main_border = 1
    main_padding = 4
    main_width = main_exterior_width - main_border * 2 - main_padding * 2
+   general_margin = 8
+   general_padding = 2
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -16,10 +18,11 @@
 <head>
   <title><%= basics[:name] %> - 株色新聞</title>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta description="" />
   <style>
     * {margin:0; padding:0}
     body {font-size:12px;/* background:#EEE;*/}
-    ul {list-style-type:none;}
+    td {vertical-align:top;}
     .maincolumn {height:600px;}
     #wrapper {width:<%= wrapper_width %>px; margin:0 auto;/* background:#FFF;*/}
     #navi {float:left; background:#EEF2FA; font-size:11px; width:<%= navi_width %>px; padding:2px <%= navi_padding %>px;}
@@ -44,6 +47,8 @@
     .ord {text-align:right; font:93%/93% arial;}
     .cor {font:bold 93%/93% arial;}
     .block {margin:0 auto;}
+    #articles {margin-top: <%= general_margin %>px;}
+    #articles table td {padding: <%= general_padding %>px;}
   </style>
 <!--   <script src="http://code.jquery.com/jquery-latest.js"></script> -->
   <script src="./jquery.min.js"></script>
@@ -143,20 +148,23 @@
 	<% end %>
       </table>
       <% end %>
+
+      <div id="articles">
+	<h2>株色新聞ニュース</h2>
+	<table class="articles">
+	  <% articles.each do |article| %>
+	  <tr>
+	    <td class="date">
+	      <%= date_to_s(article['date']) %>
+	    </td>
+	    <td class="content">
+	      <%= article['content'] %>
+	    </td>
+	  </tr>
+	  <% end %>
+	</table>
+      </div>
       
-      <h2>株色新聞ニュース</h2>
-      <ul class="articles">
-	<% articles.each do |article| %>
-	<li>
-	  <span class="date">
-	    <%= date_to_s(article['date']) %>
-	  </span>
-	  <span class="content">
-	    <%= article['content'] %>
-	  </span>
-	</li>
-	<% end %>
-      </ul>
     </div>
 
     <div id="footer">
