@@ -15,8 +15,7 @@ def render(company, dir, template, miscdir)
   case company['exchange']
   when /大証/
     basics[:exchange] = 'O'
-  when /ＪＱ/
-  when /ＨＣ/
+  when /ＪＱ/, /ＨＣ/
     basics[:exchange] = 'Q'
   when /札証/
     basics[:exchange] = 'S'
