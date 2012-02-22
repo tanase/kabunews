@@ -102,12 +102,13 @@
       <div class="block">
 	<h2>値動きの似ている銘柄</h2>
 	<table>
-	  <% correlated.each do |t| %>
+	  <% correlated.each_with_index do |t, i| %>
 	  <tr>
 	    <td class="ord"><%= t[:ord] %>.</td>
 	    <td class="name"><a href="<%= t[:symbol] %>.html"><%= t[:name] %></a></td>
 	    <td class="cor"><%= "%.3f" % t[:cor] %></td>
 	  </tr>
+	  <% break if i == 19 %>
 	  <% end %>
 	</table>
       </div>

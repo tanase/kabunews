@@ -34,7 +34,6 @@ def render(company, dir, template, miscdir)
           ord = ord.to_i
           cor = cor.to_f
           correlated << {:ord => ord, :cor => cor, :symbol => symbol, :name => name}
-          break if ord == 10
         end
       end
     rescue => e
