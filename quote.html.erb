@@ -43,12 +43,14 @@
     .spanlist {text-align:center;}
     .graph-label {text-align:center; font-weight:bold;}
     .graph {height: 301px;}
-    .graph .loading {background: url(./ajax-loader.gif) no-repeat center center;}
+    .graph .loading {background:url(./ajax-loader.gif) no-repeat center center;}
     .ord {text-align:right; font:93%/93% arial;}
     .cor {font:bold 93%/93% arial;}
     .block {margin:0 auto;}
     #articles {margin-top: <%= general_margin %>px;}
-    #articles table td {padding: <%= general_padding %>px;}
+    .date {padding:0 10px 0 20px;}
+    .up .date {background:url("images/icons/arrow_up.png") 0 0 no-repeat;}
+    .down .date {background:url("images/icons/arrow_down.png") 0 0 no-repeat;}
   </style>
 <!--   <script src="http://code.jquery.com/jquery-latest.js"></script> -->
   <script src="./jquery.min.js"></script>
@@ -153,7 +155,7 @@
 	<h2>株色新聞ニュース</h2>
 	<table class="articles">
 	  <% articles.each do |article| %>
-	  <tr>
+	  <tr class="article <%= article['change_today'] > 0 ? 'up' : 'down' %>">
 	    <td class="date">
 	      <%= date_to_s(article['date']) %>
 	    </td>
