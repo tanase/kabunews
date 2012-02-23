@@ -99,6 +99,13 @@ int main(int argc, char** argv)
     source.collect();
     cerr << string(100,' ') << '\r' << "done collecting\n";
     vector<Article> articles = generateArticles(source);
+
+    cerr << "num of articles = " << articles.size() << endl;
+    if (articles.size() == 0) {
+        cerr << "probably market was not open on this day?" << endl;
+        return 0;
+    }
+    
     Layout layout(source.today, now, articles, generateSummary(source), generateYearWinnerLoserRankings(source));
     int error = layout.render();
     if (error) return 1;
@@ -152,13 +159,13 @@ int main(int argc, char** argv)
         int error = 0;
         {
             stringstream ss;
-            ss << "UPDATE articles SET title='" << articles[i].heading << "', subtitle='" << articles[i].sub_heading << "', content='" <<  articles[i].content << "' WHERE code='" << articles[i].code.code << "' AND date=" << today;
+            ss << "UPDATE articles SET title='" << articles[i].heading << "', subtitle='" << articles[i].sub_heading << "', content='" <<  articles[i].content << "', score=" << articles[i].score << ", change_today=" << articles[i].changeToday << " WHERE code='" << articles[i].code.code << "' AND date=" << today;
             error = db.execute(ss.str());
         }
         if (error) {
             cerr << "CAUGHT!!!\n";
             stringstream ss;
-            ss << "INSERT INTO articles VALUES ('" << articles[i].code.code << "'," << today << ",'" << articles[i].heading << "','" << articles[i].sub_heading << "','" << articles[i].content << "')";
+            ss << "INSERT INTO articles VALUES ('" << articles[i].code.code << "'," << today << ",'" << articles[i].heading << "','" << articles[i].sub_heading << "','" << articles[i].content << "', " << articles[i].score << "," << articles[i].changeToday << ")";
             error = db.execute(ss.str());
             if (error) {
                 cerr << "NOW WHAT??\n";

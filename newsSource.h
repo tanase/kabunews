@@ -11,6 +11,7 @@ struct Code {
     string exchange;            /* 所属 */
     string shortName;           /* 銘柄名 */
     string industry;            /* 業種 */
+    double reserved;            /* 好きに使って */
 
     Code();
     Code( string code_, string exchange_, string shortName_, string industry_ );
