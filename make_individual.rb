@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 $:.unshift(File.dirname(__FILE__))
+require 'kabunews'
 require '../kabudata/quotedatabase'
 require 'optparse'
 require 'erb'
 require 'util'
-
-$url = "http://jp.sugyoku.com"
 
 def render(company, dir, template, miscdir)
   basics = {}
