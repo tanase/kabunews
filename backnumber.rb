@@ -37,19 +37,27 @@ def main
   opt = OptionParser.new
   country = "jp"
   lang = "jp"
-  dir = "/tmp"
-  opt.on('--country COUNTRY') {|v| country = v}
-  opt.on('--lang LANG') {|v| lang = v}
+  deploydir = nil
+  dir = nil
+  
+  opt.on('-c', '--country COUNTRY') {|v| country = v}
+  opt.on('-l', '--lang LANG') {|v| lang = v}
+  opt.on('--deploydir DIR') {|v| deploydir = v}
   opt.on('--dir DIR') {|v| dir = v}
+  opt.version = 1.0
   opt.parse!(ARGV)
+  
+  if !dir
+    puts opt
+    exit(1)
+  end
 
   title = make_title(country, lang)
 
-  File::open(File.join(dir, "backnumber.html"), 'w') do |f|
-    erb = ERB.new(File.read("backnumber.html.erb"))
-    files = Dir::entries(dir).select {|x| x =~ /[0-9]{8}.html/}.sort.reverse
-    f.puts erb.result(binding)
-  end
+  f = deploydir ? open(File.join(deploydir, "back.html"), 'w') : STDOUT
+  erb = ERB.new(File.read("backnumber.html.erb"))
+  files = Dir::entries(dir).select {|x| x =~ /[0-9]{8}.html/}.sort.reverse
+  f.puts erb.result(binding)
 end
 
 main()
