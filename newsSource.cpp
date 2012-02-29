@@ -46,6 +46,11 @@ bool Code::isSpecial() const {
     return false;
 }
 
+bool Code::isStock() const {
+    if (Env::country == "us") return true; // TODO
+    if (indsutry == "その他" || exchange == "東証" || exchange == "大証") return false;
+    return true;
+}
 
 Price Stock::changeToday() const
 {

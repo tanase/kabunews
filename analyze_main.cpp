@@ -103,15 +103,14 @@ int main( int argc, char** argv )
         vector< pair<Code, vector<Record> > > records;
         for (int i = 0; i < source.codes.size(); i++) {
             Code code = source.codes[i];
-            if (stockonly && (code.exchange == "東証" || code.exchange == "大証")) continue;
             if (codeA != "" && codeB != "" && code.code != codeA && code.code != codeB) continue;
             vector<Record> r = source.getRecords(code.code, today);
             double sumTrade = 0;
             for (int j = 0; j < r.size(); j++) {
                 sumTrade += r[j].trade();
             }
-            if (sumTrade < aveTrade * r.size()) continue;
-            //cerr << code.shortName << endl;
+            if (r.size() == 0) continue;
+            code.reserved = sumTrade / r.size();
             records.push_back(make_pair(code, r));
             if (i % 10 == 0) cerr << ".";
         }
@@ -127,9 +126,13 @@ int main( int argc, char** argv )
                 if (i == j) continue;
                 Code codeJ = records[j].first;
                 if (codeB != "" && codeJ.code != codeB) continue;
+                // ある程度出来高があるところだけを対象
+                if (codeJ.reserved < aveTrade) continue;
                 // 上場廃止など(１ヶ月以上前からデータなし)
                 if (records[j].second.back().date < nMonthsAgo(records[i].second.back().date, 1))
                     continue;
+                if (stockonly && !codeJ.isStock()) continue;
+                
                 double t = correlation2(records[i].second, records[j].second);
                 if (t > 1 || t < -1) continue;
                 corrCodes.push_back(make_pair(t, codeJ));
@@ -145,15 +148,16 @@ int main( int argc, char** argv )
                 }
             }
 
-            cerr << "top 10" << endl;
-            for (int i = 0; i < 10 && i < corrCodes.size(); i++) {
+            int top = 20;
+            cerr << "top " << top << endl;
+            for (int i = 0; i < top && i < corrCodes.size(); i++) {
                 double corr = corrCodes[corrCodes.size()-1-i].first;
                 Code code = corrCodes[corrCodes.size()-1-i].second;
                 fprintf(stderr, "%2d. %.3f %s\n", i + 1, corr, code.to_s().c_str());
             }
         
-            cerr << "worst 10" << endl;
-            for (int i = 0; i < 10 && i < corrCodes.size(); i++) {
+            cerr << "worst " << top << endl;
+            for (int i = 0; i < top && i < corrCodes.size(); i++) {
                 fprintf(stderr, "%2d. %.3f %s\n", i + 1, corrCodes[i].first, corrCodes[i].second.to_s().c_str());
             }
         }
