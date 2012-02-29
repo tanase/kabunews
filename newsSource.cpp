@@ -40,6 +40,12 @@ bool Code::operator<(const Code& other) const {
     return false;
 }
 
+bool Code::isSpecial() const {
+    if (Env::country == "us") return false; // TODO
+    if (code.size() < 4) return true;
+    return false;
+}
+
 
 Price Stock::changeToday() const
 {

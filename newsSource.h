@@ -18,6 +18,7 @@ struct Code {
     
     string to_s() const;
     bool operator<(const Code& other) const;
+    bool isSpecial() const;
 };
 
 bool codeIsSpecial( string code );
