@@ -48,7 +48,7 @@ bool Code::isSpecial() const {
 
 bool Code::isStock() const {
     if (Env::country == "us") return true; // TODO
-    if (indsutry == "その他" || exchange == "東証" || exchange == "大証") return false;
+    if (industry == "その他" || exchange == "東証" || exchange == "大証") return false;
     return true;
 }
 

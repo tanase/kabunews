@@ -67,3 +67,9 @@ string quoteURL(string code)
         // 内部サイトに誘導
         "quotes/" + code + ".html";
 }
+
+bool isLeapYear(int year)
+{
+    if (year % 4 == 0 && (year % 400 == 0 || year % 100)) return true;
+    return false;
+}

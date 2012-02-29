@@ -1,5 +1,6 @@
 #include "genArticleHelper.h"
 #include "record.h"
+#include "util.h"
 #include <cmath>
 #include <sstream>
 #include <string>
@@ -39,11 +40,6 @@ double calcEntropy(int event, int total)
     return log((double)total / event);
 }
 
-bool isLeapYear(int year)
-{
-    if (year % 4 == 0 && (year % 400 == 0 || year % 100)) return true;
-    return false;
-}
 
 int daysBetween(int date1, int date2)
 {
@@ -54,7 +50,7 @@ int daysBetween(int date1, int date2)
     if (y1 == y2 && m1 == m2 && d1 == d2) return 0;
     for (int res = 1; res < 10000; res ++) {
         d1 ++;
-        if (d1 > days[m1-1]) {
+        if (d1 > days[m1-1] + (m1 == 2 && isLeapYear(y1) ? 1 : 0)) {
             d1 = 1;
             m1 ++;
             if (m1 == 13) {
